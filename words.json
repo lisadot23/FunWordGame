@@ -1,42 +1,122 @@
 {
-  "2026-05-12": {
+  "2026-06-01": {
     "theme": null,
     "words": ["CRANE", "BLAST", "FROWN", "PIXEL", "JAZZY", "QUOTA", "STUMP", "CHILL", "BOXER", "VAGUE"]
   },
-  "2026-05-13": {
+  "2026-06-02": {
     "theme": null,
     "words": ["FLAME", "GROUT", "WHISK", "PLUMB", "OXIDE", "FJORD", "KNACK", "SLYLY", "TROVE", "CHIMP"]
   },
-  "2026-05-14": {
-    "theme": "Star Wars",
-    "words": ["VADER", "LANDO", "EWOKS", "DROID", "SABER", "CLONE", "JABBA", "TROOP", "PILOT", "FORCE"]
-  },
-  "2026-05-15": {
+  "2026-06-03": {
     "theme": null,
-    "words": ["GLYPH", "WRECK", "BOOZE", "FLINT", "PROXY", "CLASP", "MIRTH", "KNEEL", "SHOWY", "DUTCH"]
+    "words": ["MIRTH", "PLAIN", "CLOVE", "DROOP", "KNELT", "FUZZY", "SHARD", "TWICE", "GAMER", "BULKY"]
   },
-  "2026-05-16": {
+  "2026-06-04": {
     "theme": null,
-    "words": ["STOMP", "FIZZY", "CRAVE", "BLUNT", "WORMY", "EXPEL", "QUIRK", "HAVEN", "SCOFF", "JIFFY"]
+    "words": ["GLYPH", "WRECK", "BOOZE", "FLINT", "PROXY", "CLASP", "TRUTH", "KNEEL", "SHOWY", "DUTCH"]
   },
-  "2026-05-17": {
+  "2026-06-05": {
+    "theme": "World Environment Day",
+    "words": ["EARTH","FAUNA","PLANT","RIVER","OCEAN","GREEN","SOLAR","REUSE","WASTE","FLORA"]
+  },
+  "2026-06-06": {
     "theme": "Countries",
-    "words": ["SPAIN", "CHINA", "JAPAN", "INDIA", "GHANA", "NIGER", "TONGA", "NAURU", "PALAU", "KENYA"]
+    "words": ["SPAIN", "CHINA", "JAPAN", "INDIA", "GHANA", "NIGER", "TONGA", "BENIN", "YEMEN", "KENYA"]
   },
-  "2026-05-18": {
+  "2026-06-07": {
     "theme": null,
-    "words": ["ABUZZ", "FLECK", "GRIPE", "OCTET", "SKIMP", "THYME", "WALTZ", "CROUP", "HYENA", "BOXER"]
+    "words": ["ABUZZ", "FLECK", "GRIPE", "OCTET", "SKIMP", "THYME", "WALTZ", "CROUP", "HYENA", "GAMED"]
   },
-  "2026-05-19": {
+  "2026-06-08": {
     "theme": null,
     "words": ["PLONK", "SNOWY", "TRYST", "QUAFF", "GUILD", "CRIMP", "BLAZE", "NOTCH", "EXPAT", "SYNOD"]
   },
-  "2026-05-20": {
+  "2026-06-09": {
     "theme": "Sports",
     "words": ["COURT", "PITCH", "DRAFT", "RALLY", "SCORE", "MATCH", "PRESS", "BLOCK", "SERVE", "STEAL"]
   },
-  "2026-05-21": {
+  "2026-06-10": {
     "theme": null,
-    "words": ["FJORD", "GAWKY", "PLUMB", "CRAZE", "STOIC", "WHELP", "INFIX", "KAZOO", "BLUFF", "TRYST"]
-  }
+    "words": ["FIVER", "GAWKY", "THUMB", "CRAZE", "STOIC", "WHELP", "INFIX", "KAZOO", "BLUFF", "TRIES"]
+  },
+  "2026-06-11": {
+    "theme": null,
+    "words": ["CLIMB", "CHIRP", "SMOCK", "GLINT", "HAVEN", "QUILL", "ROAST", "BEGAN", "CHUNK", "DOPEY"]
+  },
+  "2026-06-12": {
+    "theme": null,
+    "words": ["TIGER", "BUTTS", "CRISP", "MONTH", "WACKY", "GHOUL", "SNARE", "VIXEN", "BLOAT", "MERCY"]
+  },
+  "2026-06-13": {
+    "theme": null,
+    "words": ["ADOBE", "SHREW", "CLAMP", "JUICY", "THORN", "PIXIE", "BRINK", "OVERT", "GLADE", "MUMMY"]
+  },
+  "2026-06-14": {
+    "theme": "Flag Day",
+    "words": ["FLAGS","STARS","PROUD","SONGS","EAGLE","UNION","FIELD","STAFF","STAND","MOTTO"]
+  },
+  "2026-06-15": {
+    "theme": null,
+    "words": ["STOMP", "FIZZY", "CRAVE", "BLUNT", "WORMY", "EXPEL", "QUIRK", "ALONE", "SCOFF", "JIFFY"]
+  },
+  "2026-06-16": {
+    "theme": null,
+    "words": ["GHOST", "CRATE", "ROUGH", "PIZZA", "QUOIN", "SPARK", "TWIRL", "VODKA", "MIDGE", "KNURL"]
+  },
+  "2026-06-17": {
+    "theme": null,
+    "words": ["ABUSE", "FLOCK", "TROUP", "PLUCK", "SKIMS", "RHYME", "CRUMB", "GROUP", "KITTY", "NAMED"]
+  },
+  "2026-06-18": {
+    "theme": null,
+    "words": ["SKATE", "FLAIR", "LUMPS", "DIZZY", "PHONE", "WOVEN", "QUARK", "BLEND", "GROVE", "HUMID"]
+  },
+  "2026-06-19": {
+    "theme": "Juneteenth",
+    "words": ["FREED","UNITE","MARCH","VOICE","RIGHT","EQUAL","HONOR","BLACK","TEXAS","CHAIN"]
+  },
+  "2026-06-20": {
+    "theme": null,
+    "words": ["MANGO", "TRICK", "BRAWN", "FLICK", "JELLY", "QUASH", "SPORE", "VAPOR", "DUNCE", "WHARF"]
+  },
+  "2026-06-21": {
+    "theme": "Fathers' Day",
+    "words": ["DADDY","PAPAS","GRILL","COACH","BEERS","TEACH","GRASS","SPORT","GAMES","BALLS"]
+  },
+  "2026-06-22": {
+    "theme": null,
+    "words": ["NOBLE", "CRAZY", "BONES", "TWEAK", "BINGO", "JOUST", "PRIZE", "SHOCK", "VILLA", "MUCKY"]
+  },
+  "2026-06-23": {
+    "theme": null,
+    "words": ["DRUMS", "SPINE", "CROOK", "FUNNY", "JERKY", "QUICK", "BOMBS", "FENCE", "TIMED", "VIGOR"]
+  },
+  "2026-06-24": {
+    "theme": "Midsummer Day",
+    "words": ["SUNNY","SOLAR","BLOOM","DAISY","TREES","FAIRY","DANCE","ELFIN","LIGHT","LEAFY"]
+  },
+  "2026-06-25": {
+    "theme": null,
+    "words": ["ICONS", "GRACE", "MOCHA", "BRUTE", "WASHY", "JOLLY", "QUAIL", "SCAMP", "DROVE", "ZEBRA"]
+  },
+  "2026-06-26": {
+    "theme": null,
+    "words": ["TRIPE", "CHARM", "BLOKE", "MAGIC", "GAUNT", "FARMS", "PLAZA", "VOUCH", "KNAVE", "SMELT"]
+  },
+  "2026-06-27": {
+    "theme": null,
+    "words": ["BERRY", "CLASH", "FROST", "JUMPS", "QUAKE", "THROB", "AXLES", "GLEAN", "POUCH", "WIDEN"]
+  },
+  "2026-06-28": {
+    "theme": "Stonewall Riots",
+    "words": ["PRIDE","LGBTQ","UNITY","QUEEN","FIGHT","CROWD","BRAVE","QUEER","POWER","REBEL"]
+  },
+  "2026-06-29": {
+    "theme": null,
+    "words": ["SNOUT", "CRIME", "BLINK", "FUDGE", "JOKER", "QUART", "THIEF", "VAPID", "GRUMP", "WORRY"]
+  },
+  "2026-06-30": {
+    "theme": null,
+    "words": ["MOTIF", "PRANK", "CLAIM", "SWIRL", "MUSTY", "QUOTH", "BRISK", "HAVOC", "DINGY", "ZESTY"]
+  },
 }
