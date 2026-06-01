@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Wordle</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <div class="header-left">
+      <button class="icon-btn" id="help-btn" title="How to play">?</button>
+    </div>
+    <h1>Wordle</h1>
+    <div class="header-right">
+      <button class="icon-btn" id="stats-btn" title="Statistics">📊</button>
+    </div>
+  </header>
+
+  <!-- ── Subheader ── -->
+  <div class="subheader">
+    <span id="word-counter">Word 1 of 10</span>
+    <span id="theme-banner"></span>
+  </div>
+
+  <!-- ── Toast notifications ── -->
+  <div id="toast"></div>
+  <div id="error-banner"></div>
+
+  <!-- ── Game ── -->
+  <main>
+    <div id="board"></div>
+  </main>
+
+  <!-- ── Keyboard ── -->
+  <div id="keyboard"></div>
+
+
+  <!-- ══ WORD SUMMARY MODAL ══ -->
+  <div class="modal" id="word-summary-modal">
+    <div class="modal-box">
+      <p class="modal-title">Word Complete</p>
+      <span id="ws-word"></span>
+      <span id="ws-result"></span>
+      <div id="ws-mini-grid"></div>
+      <button id="ws-next-btn">Next Word</button>
+    </div>
+  </div>
+
+
+  <!-- ══ FINAL SUMMARY MODAL ══ -->
+  <div class="modal" id="final-summary-modal">
+    <div class="modal-box">
+      <p class="modal-title">Today's Results</p>
+
+      <span id="fs-score"></span>
+      <div class="fs-streak-row">
+        <span id="fs-streak"></span>
+        <span id="fs-longest"></span>
+      </div>
+
+      <div id="fs-grid"></div>
+
+      <div id="fs-share-area">
+        <label>Share your results</label>
+        <textarea id="fs-share-text" readonly></textarea>
+        <div class="fs-btn-row">
+          <button id="fs-copy-btn">Copy</button>
+          <button id="fs-play-again">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ STATS MODAL ══ -->
+  <div class="modal" id="stats-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="stats-close">✕</button>
+      <p class="modal-title">Statistics</p>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="stat-num" id="stat-games">0</span>
+          <span class="stat-lbl">Played</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-winpct">0</span>
+          <span class="stat-lbl">Win %</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-streak">0</span>
+          <span class="stat-lbl">Streak</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-longest">0</span>
+          <span class="stat-lbl">Best</span>
+        </div>
+      </div>
+
+      <p class="dist-section-title">Guess Distribution</p>
+      <div id="guess-dist"></div>
+    </div>
+  </div>
+
+
+  <!-- ══ HELP MODAL ══ -->
+  <div class="modal" id="help-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="help-close">✕</button>
+      <p class="modal-title">How to Play</p>
+
+      <p class="help-text">Guess the word in 6 tries. Each day has 10 words. On theme days, all words share a common theme — proper nouns are fair game!</p>
+
+      <p class="help-text">After each guess, tiles change colour to show how close you were.</p>
+
+      <div class="help-example">
+        <div class="example-row">
+          <div class="ex-tile correct">W</div>
+          <div class="ex-tile">E</div>
+          <div class="ex-tile">A</div>
+          <div class="ex-tile">R</div>
+          <div class="ex-tile">Y</div>
+        </div>
+        <p><strong>W</strong> is in the word and in the correct spot.</p>
+      </div>
+
+      <div class="help-example">
+        <div class="example-row">
+          <div class="ex-tile">P</div>
+          <div class="ex-tile present">I</div>
+          <div class="ex-tile">L</div>
+          <div class="ex-tile">L</div>
+          <div class="ex-tile">S</div>
+        </div>
+        <p><strong>I</strong> is in the word but in the wrong spot.</p>
+      </div>
+
+      <div class="help-example">
+        <div class="example-row">
+          <div class="ex-tile">V</div>
+          <div class="ex-tile">A</div>
+          <div class="ex-tile">G</div>
+          <div class="ex-tile absent">U</div>
+          <div class="ex-tile">E</div>
+        </div>
+        <p><strong>U</strong> is not in the word at all.</p>
+      </div>
+
+      <p class="help-text" style="margin-top:14px;">Your progress is saved on this device. A new set of words is available each day.</p>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
