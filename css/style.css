@@ -1,738 +1,851 @@
 /* ============================================================
-   FunWordGame — style.css
+   WORDLE — Stylesheet
    ============================================================ */
 
-/* ── Variables ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap');
+
 :root {
-  --color-bg:           #121213;
-  --color-surface:      #1a1a1b;
-  --color-border:       #3a3a3c;
-  --color-text:         #ffffff;
-  --color-text-muted:   #818384;
+  --bg: #faf9f6;
+  --surface: #ffffff;
+  --border: #d3d0c8;
+  --text: #1a1917;
+  --text-muted: #7a7570;
 
-  --color-correct:      #538d4e;
-  --color-present:      #b59f3b;
-  --color-absent:       #3a3a3c;
+  --correct: #4a7c59;
+  --present: #c9a84c;
+  --absent: #787068;
+  --absent-light: #b8b4ac;
 
-  --color-key-bg:       #818384;
-  --color-key-text:     #ffffff;
+  --key-bg: #e8e4dc;
+  --key-text: #1a1917;
 
-  /* Theme day amber */
-  --theme-bg:           #2d1f00;
-  --theme-surface:      #3d2900;
-  --theme-banner-bg:    #e07000;
-  --theme-border:       #7a5200;
-  --theme-text:         #ffe8b0;
-  --theme-text-muted:   #c49a3c;
+  --tile-size: clamp(48px, 11vw, 62px);
+  --gap: clamp(4px, 1vw, 6px);
 
-  /* Board geometry — tile-size drives everything */
-  --tile-size:          clamp(46px, 11vw, 62px);
-  --tile-gap:           5px;
-  --tile-font-size:     clamp(1.2rem, 4vw, 1.75rem);
+  --radius: 4px;
+  --modal-radius: 12px;
 
-  /* Board width = 5 tiles + 4 gaps */
-  --board-width: calc(5 * var(--tile-size) + 4 * var(--tile-gap));
-
-  /* Keyboard */
-  --key-height:         58px;
-  --header-height:      50px;
-
-  --radius-sm:  4px;
-  --radius-md:  8px;
-  --radius-lg:  12px;
-
-  --ease:    0.1s ease;
-  --ease-md: 0.25s ease;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
 }
 
-/* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+html {
+  height: 100%;
+  /* Chrome Android needs touch-action here too */
+  touch-action: manipulation;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  /* Prevent Chrome from auto-resizing on input focus */
+  overflow-x: hidden;
+}
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-  min-height: 100dvh;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
-  overflow-x: hidden;
+  min-height: 100vh;     /* fallback for Chrome Android */
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom);
+  width: 100vw;
   touch-action: manipulation;
-  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* ── Theme day ──────────────────────────────────────────────── */
-body.theme-day {
-  background-color: var(--theme-bg);
-  color: var(--theme-text);
-  --color-bg:         var(--theme-bg);
-  --color-surface:    var(--theme-surface);
-  --color-border:     var(--theme-border);
-  --color-text:       var(--theme-text);
-  --color-text-muted: var(--theme-text-muted);
-}
-
-/* ── Header ─────────────────────────────────────────────────── */
+/* ─── Header ───────────────────────────────────────────── */
 header {
   width: 100%;
   max-width: 500px;
-  height: var(--header-height);
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
-  padding: 0 12px;
-  border-bottom: 1px solid var(--color-border);
-  position: relative;
-  flex-shrink: 0;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
 }
 
-header h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-}
-
-.header-left,
-.header-right {
+.header-left, .header-right {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
-  align-items: center;
   gap: 4px;
-  z-index: 1;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-text);
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--text-muted);
   font-size: 1.2rem;
-  width: 36px;
-  height: 36px;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
-  transition: background-color var(--ease);
+  transition: background 0.15s, color 0.15s;
   touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
 }
-.icon-btn:hover  { background-color: rgba(255,255,255,0.08); }
-.icon-btn:active { background-color: rgba(255,255,255,0.15); }
+.icon-btn:hover { background: var(--key-bg); color: var(--text); }
 
-/* ── Subheader ──────────────────────────────────────────────── */
+/* ─── Subheader ────────────────────────────────────────── */
 .subheader {
   width: 100%;
   max-width: 500px;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
   gap: 4px;
-  padding: 6px 16px 2px;
-  flex-shrink: 0;
+  padding: 8px 16px 4px;
 }
 
 #word-counter {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--text-muted);
 }
 
 #theme-banner {
-  display: none;   /* shown by JS on theme days */
-  background-color: var(--theme-banner-bg);
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 3px 12px;
+  display: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: #1a1917;
+  color: #faf9f6;
+  padding: 4px 12px;
   border-radius: 20px;
+  letter-spacing: 0.02em;
 }
 
-/* ── Toast / error ──────────────────────────────────────────── */
-#toast,
-#error-banner {
+/* ─── Toast / Error ────────────────────────────────────── */
+#toast, #error-banner {
   position: fixed;
-  top: 64px;
+  top: 70px;
   left: 50%;
-  transform: translateX(-50%) translateY(-6px);
-  background-color: var(--color-text);
-  color: var(--color-bg);
+  -webkit-transform: translateX(-50%) translateY(-8px);
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--text);
+  color: var(--bg);
   padding: 10px 20px;
   border-radius: 24px;
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 600;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.2s, -webkit-transform 0.2s;
   transition: opacity 0.2s, transform 0.2s;
   z-index: 9999;
   white-space: nowrap;
 }
-#toast.visible,
-#error-banner.visible {
+#toast.visible, #error-banner.visible {
   opacity: 1;
+  -webkit-transform: translateX(-50%) translateY(0);
   transform: translateX(-50%) translateY(0);
 }
-#error-banner { background-color: #c0392b; color: #fff; }
+#error-banner { background: #c0392b; }
 
-/* ── Main layout ────────────────────────────────────────────── */
+/* ─── Board ─────────────────────────────────────────────── */
 main {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
   flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
+  gap: 16px;
+  padding: 12px 16px;
   width: 100%;
-  max-width: 500px;
-  padding: 12px 0 8px;
 }
 
-/* ── Board ──────────────────────────────────────────────────── */
-/*
-  Structure built by JS:
-    #board
-      .row  (× 6, one per guess attempt)
-        .tile  (× 5, one per letter)
-
-  #board must have an explicit width so flex rows don't collapse.
-  Width = 5 tiles + 4 gaps.
-*/
 #board {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
-  gap: var(--tile-gap);
-  width: var(--board-width);
+  gap: var(--gap);
 }
 
 .row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: row;
-  gap: var(--tile-gap);
-  width: 100%;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  flex-direction: row;  /* explicit — Chrome Android sometimes defaults wrong */
+  gap: var(--gap);
 }
 
-/* ── Tiles ──────────────────────────────────────────────────── */
 .tile {
   width: var(--tile-size);
   height: var(--tile-size);
-  flex-shrink: 0;            /* never squish */
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;        /* prevents tiles collapsing on Chrome Android */
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
-  font-size: var(--tile-font-size);
+  font-family: var(--font-body);
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-text);
-  background-color: transparent;
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color 0.1s, background 0.3s, color 0.3s;
+  -webkit-user-select: none;
   user-select: none;
-  transition: border-color 0.1s;
 }
 
-.tile[data-state='tbd']     { border-color: #565758; }
-.tile[data-state='correct'] { background-color: var(--color-correct); border-color: var(--color-correct); color: #fff; }
-.tile[data-state='present'] { background-color: var(--color-present); border-color: var(--color-present); color: #fff; }
-.tile[data-state='absent']  { background-color: var(--color-absent);  border-color: var(--color-absent);  color: #fff; }
+.tile[data-state='tbd'] {
+  border-color: #a09c94;
+  animation: none;
+}
 
-.tile.pop { animation: tile-pop 0.1s ease; }
+.tile[data-state='correct'] {
+  background: var(--correct);
+  border-color: var(--correct);
+  color: #fff;
+}
 
-.row.shake { animation: row-shake 0.45s ease; }
+.tile[data-state='present'] {
+  background: var(--present);
+  border-color: var(--present);
+  color: #fff;
+}
 
-/* ── Keyboard ───────────────────────────────────────────────── */
-/*
-  Structure built by JS:
-    #keyboard
-      .kb-row  (× 3)
-        button.key  (× 10, 9, or 9)
+.tile[data-state='absent'] {
+  background: var(--absent);
+  border-color: var(--absent);
+  color: #fff;
+}
 
-  #keyboard must be width-constrained and kb-rows must be flex rows.
-  Keys use flex:1 to share available space, capped by max-width.
-*/
+.tile.pop {
+  -webkit-animation: pop 0.1s ease;
+  animation: pop 0.1s ease;
+}
+
+@-webkit-keyframes pop {
+  0% { -webkit-transform: scale(1); transform: scale(1); }
+  50% { -webkit-transform: scale(1.12); transform: scale(1.12); }
+  100% { -webkit-transform: scale(1); transform: scale(1); }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.row.shake {
+  -webkit-animation: shake 0.45s ease;
+  animation: shake 0.45s ease;
+}
+
+@-webkit-keyframes shake {
+  0%, 100% { -webkit-transform: translateX(0); }
+  20% { -webkit-transform: translateX(-6px); }
+  40% { -webkit-transform: translateX(6px); }
+  60% { -webkit-transform: translateX(-4px); }
+  80% { -webkit-transform: translateX(4px); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ─── Celebrate bounce (3-guess solve) ──────────────────── */
+.tile.celebrate-bounce {
+  -webkit-animation: celebrate-bounce 0.55s ease;
+  animation: celebrate-bounce 0.55s ease;
+}
+
+@-webkit-keyframes celebrate-bounce {
+  0%, 100% { -webkit-transform: translateY(0) scale(1); }
+  30% { -webkit-transform: translateY(-14px) scale(1.08); }
+  60% { -webkit-transform: translateY(4px) scale(0.96); }
+}
+@keyframes celebrate-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-14px) scale(1.08); }
+  60% { transform: translateY(4px) scale(0.96); }
+}
+
+/* ─── Keyboard ──────────────────────────────────────────── */
 #keyboard {
   width: 100%;
   max-width: 500px;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
   gap: 6px;
-  padding: 0 8px 16px;
-  flex-shrink: 0;
+  padding: 0 8px 12px;
 }
 
 .kb-row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: row;   /* CRITICAL — keys side by side, not stacked */
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  flex-direction: row;   /* critical — Chrome Android bug can flip this */
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   gap: 5px;
-  width: 100%;
 }
 
 .key {
-  height: var(--key-height);
-  min-width: 30px;
-  flex: 1;               /* share space equally within the row */
-  max-width: 44px;       /* cap so they don't grow too wide */
+  height: 56px;
+  min-width: 34px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  max-width: 44px;
   border: none;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-key-bg);
-  color: var(--color-key-text);
-  font-family: inherit;
-  font-size: 0.82rem;
+  border-radius: var(--radius);
+  background: var(--key-bg);
+  color: var(--key-text);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
+  transition: background 0.2s, color 0.2s, -webkit-transform 0.1s;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
   user-select: none;
   touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: background-color var(--ease), opacity var(--ease);
+  /* Prevent Chrome from treating buttons as interactive form elements */
+  -webkit-appearance: none;
+  appearance: none;
 }
-.key:active { transform: scale(0.94); }
+
+.key:active { -webkit-transform: scale(0.94); transform: scale(0.94); }
 
 .key-wide {
-  min-width: 56px;
   max-width: 66px;
   font-size: 0.72rem;
 }
 
-.key[data-state='correct'] { background-color: var(--color-correct); }
-.key[data-state='present'] { background-color: var(--color-present); }
-.key[data-state='absent']  { background-color: var(--color-absent);  }
+.key[data-state='correct'] { background: var(--correct); color: #fff; }
+.key[data-state='present'] { background: var(--present); color: #fff; }
+.key[data-state='absent']  { background: var(--absent);  color: #fff; }
 
-/* ── Modals ─────────────────────────────────────────────────── */
-/*
-  Hidden by default via display:none.
-  JS adds .visible to show them.
-  On short screens they sheet up from the bottom.
-  On taller screens they centre.
-*/
-.modal {
-  display: none;                   /* hidden until .visible added by JS */
+/* ─── Fireworks canvas ───────────────────────────────────── */
+#fireworks-canvas {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.55);
-  z-index: 200;
-  align-items: flex-end;
-  justify-content: center;
-}
-.modal.visible {
-  display: flex;                   /* JS adds this class to show */
+  z-index: 9998;
+  pointer-events: all;
+  cursor: pointer;
 }
 
+/* ─── Confetti pieces ────────────────────────────────────── */
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  border-radius: 2px;
+  -webkit-animation: confetti-fall linear forwards;
+  animation: confetti-fall linear forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@-webkit-keyframes confetti-fall {
+  0%   { -webkit-transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { -webkit-transform: translateY(220px) rotate(720deg); opacity: 0; }
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(220px) rotate(720deg); opacity: 0; }
+}
+
+/* ─── Celebration text ───────────────────────────────────── */
+.celebration-text {
+  display: block;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+/* 1-guess: gold shimmer flash */
+.celebration-1 {
+  font-size: 1.7rem;
+  background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b, #ffd700);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: celebration-flash 1.2s ease infinite;
+  animation: celebration-flash 1.2s ease infinite;
+}
+
+@-webkit-keyframes celebration-flash {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes celebration-flash {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* 2-guess: bright green */
+.celebration-2 { color: var(--correct); }
+
+/* 3-guess: amber */
+.celebration-3 { color: var(--present); }
+
+/* 4, 5, 6: standard */
+.celebration-4, .celebration-5, .celebration-6 { color: var(--text); }
+
+/* ─── Tip box ─────────────────────────────────────────────── */
+.tip-box {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  background: #f4f1ea;
+  border-left: 3px solid var(--present);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.tip-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--present);
+  margin-bottom: 4px;
+}
+
+/* ─── Modals (shared) ───────────────────────────────────── */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 100;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.modal.visible { display: -webkit-box; display: -webkit-flex; display: flex; }
+
 @media (min-height: 600px) {
-  .modal { align-items: center; }
+  .modal {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
 }
 
 .modal-box {
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--surface);
+  border-radius: var(--modal-radius) var(--modal-radius) 0 0;
   width: 100%;
   max-width: 440px;
-  padding: 24px 20px 28px;
+  padding: 24px 24px 32px;
+  max-height: 90vh;
   max-height: 90dvh;
   overflow-y: auto;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
 }
 
 @media (min-height: 600px) {
-  .modal-box { border-radius: var(--radius-lg); }
+  .modal-box {
+    border-radius: var(--modal-radius);
+    margin: 16px;
+  }
 }
 
 .modal-title {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 16px;
   text-align: center;
 }
 
 .modal-close {
   position: absolute;
-  top: 12px;
-  right: 14px;
+  top: 14px;
+  right: 16px;
   background: none;
   border: none;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   cursor: pointer;
-  color: var(--color-text-muted);
+  color: var(--text-muted);
   line-height: 1;
   touch-action: manipulation;
 }
-.modal-close:hover { color: var(--color-text); }
 
-/* ── Word summary modal ─────────────────────────────────────── */
+/* ─── Word Summary Modal ─────────────────────────────────── */
 #ws-word {
-  display: block;
+  font-family: var(--font-display);
   font-size: 2rem;
-  font-weight: 700;
   text-align: center;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: 4px;
 }
 
 #ws-result {
-  display: block;
   text-align: center;
-  font-size: 0.88rem;
-  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  color: var(--text-muted);
   font-weight: 500;
-}
-
-#ws-mini-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  align-items: center;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .mini-row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: row;
   gap: 3px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin-bottom: 3px;
 }
 
 .mini-tile {
   width: 28px;
   height: 28px;
-  border-radius: 2px;
+  border-radius: 3px;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   font-size: 0.72rem;
   font-weight: 700;
-  text-transform: uppercase;
-  background-color: var(--color-absent);
+  background: var(--absent-light);
   color: #fff;
 }
-.mini-tile[data-state='correct'] { background-color: var(--color-correct); }
-.mini-tile[data-state='present'] { background-color: var(--color-present); }
-.mini-tile[data-state='absent']  { background-color: var(--color-absent);  }
+
+.mini-tile[data-state='correct'] { background: var(--correct); }
+.mini-tile[data-state='present'] { background: var(--present); }
+.mini-tile[data-state='absent']  { background: var(--absent); }
 
 #ws-next-btn {
   display: block;
   width: 100%;
-  padding: 13px;
-  background-color: var(--color-text);
-  color: var(--color-bg);
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--text);
+  color: var(--bg);
   border: none;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   letter-spacing: 0.02em;
+  transition: opacity 0.15s;
   touch-action: manipulation;
-  transition: opacity var(--ease);
 }
 #ws-next-btn:hover { opacity: 0.85; }
 
-/* ── Final summary modal ────────────────────────────────────── */
+/* ─── Final Summary Modal ────────────────────────────────── */
 #fs-score {
   display: block;
-  font-size: 2rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
   text-align: center;
+  margin-bottom: 4px;
 }
 
-.fs-streak-row { text-align: center; }
-#fs-streak  { display: block; font-weight: 700; font-size: 0.92rem; }
-#fs-longest { display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-top: 2px; }
+.fs-streak-row {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#fs-streak { font-weight: 700; font-size: 0.95rem; display: block; }
+#fs-longest { font-size: 0.82rem; color: var(--text-muted); display: block; margin-top: 2px; }
 
 .fs-row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--color-border);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
   font-size: 0.88rem;
 }
+
 .fs-label { font-weight: 600; letter-spacing: 0.04em; }
+
 .fs-badge {
   font-size: 0.78rem;
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 12px;
 }
-.badge-win  { background-color: var(--color-correct); color: #fff; }
-.badge-loss { background-color: var(--color-absent);  color: #fff; }
+
+.badge-win  { background: var(--correct); color: #fff; }
+.badge-loss { background: var(--absent);  color: #fff; }
+
+#fs-share-area { margin-top: 16px; }
 
 #fs-share-area label {
-  display: block;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  color: var(--text-muted);
+  display: block;
   margin-bottom: 6px;
 }
+
 #fs-share-text {
   width: 100%;
   height: 80px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
   font-size: 0.78rem;
   padding: 8px;
   resize: none;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--text);
 }
+
 .fs-btn-row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
+
 .fs-btn-row button {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
   flex: 1;
   padding: 12px;
   border: none;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
+  transition: opacity 0.15s;
   touch-action: manipulation;
-  transition: opacity var(--ease);
 }
 .fs-btn-row button:hover { opacity: 0.85; }
-#fs-copy-btn   { background-color: var(--color-text);    color: var(--color-bg); }
-#fs-play-again { background-color: var(--color-key-bg);  color: var(--color-text); }
 
-/* ── Stats modal ────────────────────────────────────────────── */
+#fs-copy-btn { background: var(--text); color: var(--bg); }
+#fs-play-again { background: var(--key-bg); color: var(--text); }
+
+/* ─── Stats Modal ────────────────────────────────────────── */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
+  margin-bottom: 20px;
 }
+
 .stat-box {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
   gap: 2px;
 }
+
 .stat-num {
+  font-family: var(--font-display);
   font-size: 1.8rem;
-  font-weight: 700;
   line-height: 1;
 }
+
 .stat-lbl {
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
   text-align: center;
 }
+
 .dist-section-title {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  color: var(--text-muted);
+  margin-bottom: 10px;
 }
+
 .dist-row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
   gap: 8px;
+  margin-bottom: 4px;
   font-size: 0.85rem;
 }
-.dist-label {
-  width: 14px;
-  text-align: right;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.dist-bar-wrap { flex: 1; }
+
+.dist-label { width: 14px; font-weight: 700; text-align: right; -webkit-flex-shrink: 0; flex-shrink: 0; }
+
+.dist-bar-wrap { -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; }
+
 .dist-bar {
-  background-color: var(--color-absent);
+  background: var(--absent);
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   padding: 3px 6px;
   border-radius: 2px;
   text-align: right;
-  min-width: 22px;
+  min-width: 24px;
   transition: width 0.4s ease;
 }
 
-/* ── Help modal ─────────────────────────────────────────────── */
-.help-text {
-  font-size: 0.87rem;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-}
-.help-example { margin: 10px 0 2px; }
-.help-example p {
-  font-size: 0.82rem;
-  color: var(--color-text-muted);
-  margin-top: 6px;
-}
+/* ─── Help Modal ─────────────────────────────────────────── */
+.help-example { margin-top: 12px; margin-bottom: 4px; }
+.help-example p { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+.help-text { font-size: 0.88rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 12px; }
+
 .example-row {
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
-  flex-direction: row;
   gap: 4px;
+  margin-bottom: 6px;
 }
+
 .ex-tile {
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1rem;
-  background-color: transparent;
-  color: var(--color-text);
-}
-.ex-tile.correct { background-color: var(--color-correct); border-color: var(--color-correct); color: #fff; }
-.ex-tile.present { background-color: var(--color-present); border-color: var(--color-present); color: #fff; }
-.ex-tile.absent  { background-color: var(--color-absent);  border-color: var(--color-absent);  color: #fff; }
-
-/* ── Celebration system ─────────────────────────────────────── */
-.celebration-text {
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  padding: 2px 0;
-}
-.celebration-text.celebration-1 {
-  font-size: 1.5rem;
-  color: #ffd700;
-  text-shadow: 0 0 10px #ffd700, 0 0 20px #ff9900;
-  animation: celebration-flash 0.7s ease infinite alternate;
-  text-transform: uppercase;
-}
-.celebration-text.celebration-2 { font-size: 1.4rem; color: #4af; text-transform: uppercase; }
-.celebration-text.celebration-3 { font-size: 1.2rem; }
-.celebration-text.celebration-4,
-.celebration-text.celebration-5,
-.celebration-text.celebration-6 { font-size: 1.05rem; }
-
-#fireworks-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 850;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-#fireworks-canvas.active { opacity: 1; }
-
-.confetti-piece {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 1px;
-  pointer-events: none;
-  z-index: 10;
-  animation: confetti-fall var(--confetti-duration, 1.2s) ease-out forwards;
+  border: 2px solid var(--border);
+  background: var(--surface);
 }
 
-.tip-box {
-  background-color: rgba(255,255,255,0.05);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-present);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: var(--color-text-muted);
-}
-.tip-label {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-present);
-  margin-bottom: 4px;
-}
+.ex-tile.correct { background: var(--correct); border-color: var(--correct); color: #fff; }
+.ex-tile.present { background: var(--present); border-color: var(--present); color: #fff; }
+.ex-tile.absent  { background: var(--absent);  border-color: var(--absent);  color: #fff; }
 
-/* ── Animations ─────────────────────────────────────────────── */
-@keyframes tile-pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.12); }
-  100% { transform: scale(1); }
-}
-
-@keyframes row-shake {
-  0%, 100% { transform: translateX(0); }
-  20%       { transform: translateX(-6px); }
-  40%       { transform: translateX(6px); }
-  60%       { transform: translateX(-4px); }
-  80%       { transform: translateX(4px); }
-}
-
-@keyframes celebration-flash {
-  0%   { text-shadow: 0 0 8px #ffd700, 0 0 16px #ff9900; color: #ffd700; }
-  50%  { text-shadow: 0 0 20px #fff, 0 0 40px #ffd700, 0 0 60px #ff6600; color: #fff; }
-  100% { text-shadow: 0 0 8px #ffd700, 0 0 16px #ff9900; color: #ffd700; }
-}
-
-@keyframes tile-celebrate-bounce {
-  0%   { transform: translateY(0) scaleY(1); }
-  20%  { transform: translateY(-16px) scaleY(0.9); }
-  40%  { transform: translateY(0) scaleY(1.05); }
-  55%  { transform: translateY(-6px) scaleY(0.97); }
-  70%  { transform: translateY(0) scaleY(1.02); }
-  100% { transform: translateY(0) scaleY(1); }
-}
-
-@keyframes confetti-fall {
-  0%   { opacity: 1; transform: translate(0,0) rotate(0deg) scale(1); }
-  80%  { opacity: 1; }
-  100% {
-    opacity: 0;
-    transform:
-      translate(var(--confetti-dx,30px), var(--confetti-dy,120px))
-      rotate(var(--confetti-rot,360deg))
-      scale(0.5);
-  }
-}
-
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-height: 700px) {
-  :root {
-    --tile-size:      50px;
-    --tile-font-size: 1.4rem;
-    --key-height:     50px;
-  }
-}
-
-@media (max-height: 600px) {
-  :root {
-    --tile-size:      44px;
-    --tile-font-size: 1.2rem;
-    --key-height:     44px;
-    --header-height:  44px;
-  }
-  .key { font-size: 0.74rem; }
-}
-
-/* Narrow phones (iPhone SE etc.) */
+/* ─── Responsive: very small screens ─────────────────────── */
 @media (max-width: 380px) {
   :root {
-    --tile-size: 46px;
+    --tile-size: clamp(42px, 13vw, 56px);
+    --gap: 3px;
   }
-  .key      { min-width: 26px; }
-  .key-wide { min-width: 50px; max-width: 60px; }
+  .key { height: 48px; min-width: 28px; font-size: 0.72rem; }
+  .key-wide { max-width: 58px; }
 }
