@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>FunWordGame</title>
+  <title>Wordle</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -15,7 +15,7 @@
     <div class="header-left">
       <button class="icon-btn" id="help-btn" title="How to play">?</button>
     </div>
-    <h1>FunWordGame</h1>
+    <h1>Wordle</h1>
     <div class="header-right">
       <button class="icon-btn" id="feedback-btn" title="Send feedback">💬</button>
       <button class="icon-btn" id="stats-btn" title="Statistics">📊</button>
@@ -115,7 +115,7 @@
       <button class="modal-close" id="help-close">✕</button>
       <p class="modal-title">How to Play</p>
 
-      <p class="help-text">Guess the word in 6 tries. Each day has 10 words. On theme days, all words share a common theme — proper nouns are fair game!</p>
+      <p class="help-text">Guess the word in 6 tries. Each day has 10 words.</p>
 
       <p class="help-text">After each guess, tiles change colour to show how close you were.</p>
 
@@ -152,11 +152,12 @@
         <p><strong>U</strong> is not in the word at all.</p>
       </div>
 
-      <p class="help-text" style="margin-top:14px;">Your progress is saved on this device. A new set of words is available each day.</p>
+      <p class="help-text" style="margin-top:16px;"><strong>Theme days:</strong> On theme days, all 10 words share a common theme. Proper nouns, names, and abbreviations are all fair game — the theme banner at the top tells you the category.</p>
+
+      <p class="help-text">Your progress is saved on this device. A new set of words is available each day.</p>
     </div>
   </div>
 
-  <script src="js/words.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>
