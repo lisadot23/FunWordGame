@@ -23,7 +23,7 @@ const MAX_GUESSES   = 6;
 const WORDS_PER_DAY = 10;
 
 // Feedback form URL — replace with your Google Form link
-const FEEDBACK_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScrQOgBeGKO_KCit6xhfxfAwOmsSygyTP7P69mK47sA-bH60g/viewform?usp=header';
+const FEEDBACK_URL = 'YOUR_GOOGLE_FORM_URL_HERE';
 
 let state = {
   todayKey: '',
@@ -613,7 +613,7 @@ function showFinalSummary() {
 
 function buildShareText(solved, total) {
   const themeLabel = state.theme ? ` (${state.theme})` : '';
-  let text = `Wordle${themeLabel} — ${state.todayKey}\n${solved}/${total} solved\n\n`;
+  let text = `FunWordGame${themeLabel} — ${state.todayKey}\n${solved}/${total} solved\n\n`;
   state.allResults.forEach(r => {
     r.guesses.forEach(guess => {
       const row = evaluateGuess(guess, r.word);
