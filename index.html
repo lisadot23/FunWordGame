@@ -2,162 +2,177 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Wordle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>FunWordGame</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- ── Header ── -->
-  <header>
+  <!-- Theme Banner -->
+  <div id="theme-banner" class="theme-banner hidden">
+    <span id="theme-banner-text"></span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
     <div class="header-left">
-      <button class="icon-btn" id="help-btn" title="How to play">?</button>
+      <button id="btn-help" class="icon-btn" aria-label="Help">&#63;</button>
     </div>
-    <h1>Wordle</h1>
+    <div class="header-title">FunWordGame</div>
     <div class="header-right">
-      <button class="icon-btn" id="feedback-btn" title="Send feedback">💬</button>
-      <button class="icon-btn" id="stats-btn" title="Statistics">📊</button>
+      <button id="btn-feedback" class="icon-btn" aria-label="Feedback">&#9993;</button>
+      <button id="btn-stats" class="icon-btn" aria-label="Statistics">&#128200;</button>
+      <button id="btn-settings" class="icon-btn" aria-label="Settings">&#9881;</button>
     </div>
   </header>
 
-  <!-- ── Subheader ── -->
-  <div class="subheader">
-    <span id="word-counter">Word 1 of 10</span>
-    <span id="theme-banner"></span>
-  </div>
+  <!-- Message box (toast) -->
+  <div id="message-box" class="message-box hidden"></div>
 
-  <!-- ── Toast notifications ── -->
-  <div id="toast"></div>
-  <div id="error-banner"></div>
+  <!-- Word counter -->
+  <div id="word-counter" class="word-counter"></div>
 
-  <!-- ── Game ── -->
-  <main>
-    <div id="board"></div>
+  <!-- Game board -->
+  <main class="board-area">
+    <div id="board" class="board"></div>
   </main>
 
-  <!-- ── Keyboard ── -->
-  <div id="keyboard"></div>
+  <!-- Keyboard -->
+  <div id="keyboard" class="keyboard"></div>
 
+  <!-- Fireworks canvas (sits over everything for 1-guess wins) -->
+  <canvas id="fireworks-canvas" class="fireworks-canvas hidden"></canvas>
 
-  <!-- ══ WORD SUMMARY MODAL ══ -->
-  <div class="modal" id="word-summary-modal">
+  <!-- ─── Modals ─────────────────────────────────────────────────────────── -->
+
+  <!-- Help Modal -->
+  <div id="help-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <div class="modal-box">
-      <p class="modal-title">Word Complete</p>
-      <span id="ws-word"></span>
-      <span id="ws-result"></span>
-      <div id="ws-mini-grid"></div>
-      <button id="ws-next-btn">Next Word</button>
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <h2 id="help-title">How to Play</h2>
+      <p>Guess up to 10 words each day. Each word is 5 letters. You have 6 guesses per word.</p>
+      <div class="help-tiles-example">
+        <div class="help-row">
+          <div class="help-tile correct">C</div>
+          <div class="help-tile">R</div>
+          <div class="help-tile">A</div>
+          <div class="help-tile">N</div>
+          <div class="help-tile">E</div>
+        </div>
+        <p><strong>C</strong> is in the correct spot.</p>
+        <div class="help-row">
+          <div class="help-tile">S</div>
+          <div class="help-tile present">L</div>
+          <div class="help-tile">A</div>
+          <div class="help-tile">T</div>
+          <div class="help-tile">E</div>
+        </div>
+        <p><strong>L</strong> is in the word but in the wrong spot.</p>
+        <div class="help-row">
+          <div class="help-tile">B</div>
+          <div class="help-tile">R</div>
+          <div class="help-tile absent">I</div>
+          <div class="help-tile">C</div>
+          <div class="help-tile">K</div>
+        </div>
+        <p><strong>I</strong> is not in the word.</p>
+      </div>
+      <p>A new set of words is available every day. On themed holidays, all words match the theme!</p>
     </div>
   </div>
 
-
-  <!-- ══ FINAL SUMMARY MODAL ══ -->
-  <div class="modal" id="final-summary-modal">
+  <!-- Stats Modal -->
+  <div id="stats-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="stats-title">
     <div class="modal-box">
-      <p class="modal-title">Today's Results</p>
-
-      <span id="fs-score"></span>
-      <div class="fs-streak-row">
-        <span id="fs-streak"></span>
-        <span id="fs-longest"></span>
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <h2 id="stats-title">Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="stat-played">0</div>
+          <div class="stat-label">Played</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="stat-win-pct">0%</div>
+          <div class="stat-label">Win %</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="stat-streak">0</div>
+          <div class="stat-label">Streak</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="stat-max-streak">0</div>
+          <div class="stat-label">Best Streak</div>
+        </div>
       </div>
+      <h3>Guess Distribution</h3>
+      <div id="stat-guess-dist" class="guess-dist"></div>
+    </div>
+  </div>
 
-      <div id="fs-grid"></div>
-
-      <div id="fs-share-area">
-        <label>Share your results</label>
-        <textarea id="fs-share-text" readonly></textarea>
-        <div class="fs-btn-row">
-          <button id="fs-copy-btn">Copy</button>
-          <button id="fs-play-again">Done</button>
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="modal-box">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <h2 id="settings-title">Settings</h2>
+      <div class="setting-row">
+        <label for="wpd-slider">Words per day</label>
+        <div class="wpd-control">
+          <input type="range" id="wpd-slider" min="1" max="10" step="1" value="10" />
+          <span id="wpd-display">10</span>
         </div>
       </div>
     </div>
   </div>
 
-
-  <!-- ══ STATS MODAL ══ -->
-  <div class="modal" id="stats-modal">
-    <div class="modal-box">
-      <button class="modal-close" id="stats-close">✕</button>
-      <p class="modal-title">Statistics</p>
-
-      <div class="stat-grid">
-        <div class="stat-box">
-          <span class="stat-num" id="stat-games">0</span>
-          <span class="stat-lbl">Played</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num" id="stat-winpct">0</span>
-          <span class="stat-lbl">Win %</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num" id="stat-streak">0</span>
-          <span class="stat-lbl">Streak</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-num" id="stat-longest">0</span>
-          <span class="stat-lbl">Best</span>
-        </div>
-      </div>
-
-      <p class="dist-section-title">Guess Distribution</p>
-      <div id="guess-dist"></div>
+  <!-- Summary Modal -->
+  <div id="summary-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="summary-result">
+    <div class="modal-box summary-modal-box">
+      <div id="summary-result" class="summary-result"></div>
+      <div id="summary-word" class="summary-word"></div>
+      <div id="summary-dict-link" class="summary-dict-link"></div>
+      <div id="summary-celebration" class="summary-celebration"></div>
+      <div id="summary-grid" class="summary-grid"></div>
+      <div id="summary-tip" class="summary-tip hidden"></div>
+      <button id="summary-next-btn" class="btn-primary summary-next-btn">Next Word &rarr;</button>
     </div>
   </div>
 
-
-  <!-- ══ HELP MODAL ══ -->
-  <div class="modal" id="help-modal">
-    <div class="modal-box">
-      <button class="modal-close" id="help-close">✕</button>
-      <p class="modal-title">How to Play</p>
-
-      <p class="help-text">Guess the word in 6 tries. Each day has 10 words.</p>
-
-      <p class="help-text">After each guess, tiles change colour to show how close you were.</p>
-
-      <div class="help-example">
-        <div class="example-row">
-          <div class="ex-tile correct">W</div>
-          <div class="ex-tile">E</div>
-          <div class="ex-tile">A</div>
-          <div class="ex-tile">R</div>
-          <div class="ex-tile">Y</div>
-        </div>
-        <p><strong>W</strong> is in the word and in the correct spot.</p>
+  <!-- Confirm Modal (words-per-day change) -->
+  <div id="confirm-modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-box confirm-modal-box">
+      <p id="confirm-text"></p>
+      <div class="confirm-buttons">
+        <button id="confirm-yes" class="btn-primary">Confirm</button>
+        <button id="confirm-no" class="btn-secondary">Cancel</button>
       </div>
-
-      <div class="help-example">
-        <div class="example-row">
-          <div class="ex-tile">P</div>
-          <div class="ex-tile present">I</div>
-          <div class="ex-tile">L</div>
-          <div class="ex-tile">L</div>
-          <div class="ex-tile">S</div>
-        </div>
-        <p><strong>I</strong> is in the word but in the wrong spot.</p>
-      </div>
-
-      <div class="help-example">
-        <div class="example-row">
-          <div class="ex-tile">V</div>
-          <div class="ex-tile">A</div>
-          <div class="ex-tile">G</div>
-          <div class="ex-tile absent">U</div>
-          <div class="ex-tile">E</div>
-        </div>
-        <p><strong>U</strong> is not in the word at all.</p>
-      </div>
-
-      <p class="help-text" style="margin-top:16px;"><strong>Theme days:</strong> On theme days, all 10 words share a common theme. Proper nouns, names, and abbreviations are all fair game — the theme banner at the top tells you the category.</p>
-
-      <p class="help-text">Your progress is saved on this device. A new set of words is available each day.</p>
     </div>
   </div>
 
+  <!-- Session End Modal -->
+  <div id="session-end-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="se-title">
+    <div class="modal-box">
+      <h2 id="se-title">Today&rsquo;s Session Complete!</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="se-wins">—</div>
+          <div class="stat-label">Words Won</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="se-streak">0</div>
+          <div class="stat-label">Streak</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="se-max-streak">0</div>
+          <div class="stat-label">Best Streak</div>
+        </div>
+      </div>
+      <p class="se-return">Come back tomorrow for more words!</p>
+      <button id="session-end-close" class="btn-primary">Close</button>
+    </div>
+  </div>
+
+  <script src="js/words.js"></script>
+  <script src="js/tips.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>
