@@ -611,17 +611,17 @@ html, body, button, .key {
 }
 
 .summary-dict-link {
+  display: block;
   margin-bottom: 10px;
-  font-size: 0.8rem;
-}
-
-.summary-dict-link a {
-  color: var(--color-amber);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5bb8ff;
   text-decoration: none;
 }
 
-.summary-dict-link a:hover {
+.summary-dict-link:hover {
   text-decoration: underline;
+  color: #89cfff;
 }
 
 .summary-celebration {
