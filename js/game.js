@@ -682,7 +682,7 @@ function showSummaryModal(won, guessCount, guess, answer) {
   // Tip (failed word, 20% chance)
   const tipEl = ui.summaryTip();
   tipEl.style.display = "none";
-  if (!won && Math.random() < 0.2 && WORDLE_TIPS && WORDLE_TIPS.length) {
+  if (!won && Math.random() < 1.0 && WORDLE_TIPS && WORDLE_TIPS.length) { // TODO: change back to 0.2 before launch
     const tip = WORDLE_TIPS[Math.floor(Math.random() * WORDLE_TIPS.length)];
     tipEl.textContent = "💡 Tip: " + tip;
     tipEl.style.display = "";
