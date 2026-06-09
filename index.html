@@ -27,7 +27,7 @@
   </header>
 
   <!-- Message box (toast) -->
-  <div id="message-box" class="message-box hidden"></div>
+  <div id="message-box" class="message-box"></div>
 
   <!-- Word counter -->
   <div id="word-counter" class="word-counter"></div>
@@ -50,34 +50,37 @@
     <div class="modal-box">
       <button class="modal-close" aria-label="Close">&times;</button>
       <h2 id="help-title">How to Play</h2>
-      <p>Guess up to 10 words each day. Each word is 5 letters. You have 6 guesses per word.</p>
-      <div class="help-tiles-example">
-        <div class="help-row">
-          <div class="help-tile correct">C</div>
-          <div class="help-tile">R</div>
-          <div class="help-tile">A</div>
-          <div class="help-tile">N</div>
-          <div class="help-tile">E</div>
+
+      <p>Guess each 5-letter word in 6 tries or fewer.</p>
+
+      <div class="help-legend">
+        <div class="help-legend-row">
+          <div class="help-tile correct">A</div>
+          <span>Green = correct letter, correct spot</span>
         </div>
-        <p><strong>C</strong> is in the correct spot.</p>
-        <div class="help-row">
-          <div class="help-tile">S</div>
-          <div class="help-tile present">L</div>
-          <div class="help-tile">A</div>
-          <div class="help-tile">T</div>
-          <div class="help-tile">E</div>
+        <div class="help-legend-row">
+          <div class="help-tile present">B</div>
+          <span>Yellow = correct letter, wrong spot</span>
         </div>
-        <p><strong>L</strong> is in the word but in the wrong spot.</p>
-        <div class="help-row">
-          <div class="help-tile">B</div>
-          <div class="help-tile">R</div>
-          <div class="help-tile absent">I</div>
-          <div class="help-tile">C</div>
-          <div class="help-tile">K</div>
+        <div class="help-legend-row">
+          <div class="help-tile absent">C</div>
+          <span>Gray = letter not in the word</span>
         </div>
-        <p><strong>I</strong> is not in the word.</p>
       </div>
-      <p>A new set of words is available every day. On themed holidays, all words match the theme!</p>
+
+      <p>Use the clues from each guess to find the answer.</p>
+
+      <h3>Daily Play</h3>
+      <p>Play up to 10 words each day (adjustable in Settings).</p>
+      <p>Everyone gets the same words on the same date.</p>
+      <p>Your progress, stats, and streaks are saved in your browser on this device.</p>
+
+      <h3>Theme Days</h3>
+      <p>Some holidays and special events use themed word lists.</p>
+      <p>Theme answers may include names, characters, places, acronyms, or other theme-related words.</p>
+
+      <h3>Feedback</h3>
+      <p>Found a bug or have an idea for a future theme? Use the <strong>&#9993;</strong> button to send feedback.</p>
     </div>
   </div>
 
@@ -129,10 +132,10 @@
     <div class="modal-box summary-modal-box">
       <div id="summary-result" class="summary-result"></div>
       <div id="summary-word" class="summary-word"></div>
-      <div id="summary-dict-link" class="summary-dict-link"></div>
+      <a id="summary-dict-link" class="summary-dict-link" target="_blank" rel="noopener"></a>
       <div id="summary-celebration" class="summary-celebration"></div>
       <div id="summary-grid" class="summary-grid"></div>
-      <div id="summary-tip" class="summary-tip hidden"></div>
+      <div id="summary-tip" class="summary-tip"></div>
       <button id="summary-next-btn" class="btn-primary summary-next-btn">Next Word &rarr;</button>
     </div>
   </div>
