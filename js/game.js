@@ -658,6 +658,7 @@ function showSummaryModal(won, guessCount, guess, answer) {
   const dictLink = ui.summaryDictLink();
   if (!state.theme) {
     dictLink.href = `https://dictionary.cambridge.org/us/dictionary/english/${answer.toLowerCase()}`;
+    dictLink.textContent = `📖 Look up "${answer.toLowerCase()}"`;
     dictLink.style.display = "";
   } else {
     dictLink.style.display = "none";
